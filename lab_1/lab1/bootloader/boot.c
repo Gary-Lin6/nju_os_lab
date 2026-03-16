@@ -10,7 +10,9 @@
 void bootMain(void) {
 	/* TODO: 循环读取扇区
 	 */
-
+	for (int i = 1; i <= SECTOR_COUNT; i++) {
+		readSect((void *)APP_START + (i-1) * 512, i);
+	}
 	((void (*)(void))APP_START)();
 
 }

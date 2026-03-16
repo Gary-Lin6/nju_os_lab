@@ -48,3 +48,27 @@ clearLoop:
 ; Read from RTC register
 readRTC:
 	; TODO: 实现readRTC，函数定义见main.h
+
+; 等待 RTC 不在更新中（寄存器 0x0A 的 bit7 变 0）
+wait_uip:
+    mov al, 0x8a
+    out 0x70, al         ; 选寄存器 0x0A
+    in  al, 0x71
+    test al, 0x80
+    jnz wait_uip
+
+	;禁用NMI 
+	mov al, [esp+4]
+    or  al, 0x80
+	out 0x70,al
+
+	;读值
+	in al,0x71
+	mov bl,al
+
+	;重新启用nmi
+	mov  al, 0x00
+    out  0x70, al
+
+	mov al,bl
+	ret

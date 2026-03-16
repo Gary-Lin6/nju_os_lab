@@ -12,7 +12,8 @@ start:
 	mov es, ax
 	mov ss, ax
 	; TODO: 关闭中断
-	
+
+	cli
 
 	; Clear screen
 	mov ax, 0x0600
@@ -30,14 +31,18 @@ start:
 	out dx, al
 
 	; TODO: Enable A20 gate
-
+	in al, 0x92
+	or al, 0x02  
+	out 0x92, al
 
 	; Load GDT
 	lgdt [gdtDesc]
 
 
 	; TODO: Enable protected mode, 设置CR0的PE位
-
+	mov eax,cr0
+	or al,0x01
+	mov cr0, eax
 
 
 	; Jump to protected mode
@@ -59,7 +64,7 @@ start32:
 	mov esp, eax
 
 	; TODO: 跳转bootMain
-
+	jmp bootMain
 
 ; GDT definition
 align 4
