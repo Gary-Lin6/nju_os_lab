@@ -45,10 +45,11 @@ void initIdt() {
 	// TODO 1: 设置系统调用门
 	// - 中断号 0x80 对应 irqSyscall
 	// - 使用 setIntr 设置，DPL=3（允许用户态调用）
+	setIntr(idt + 0x80, SEG_KCODE, (uint32_t)irqSyscall, DPL_USER);
 
 	// TODO 2: 设置时钟中断门
 	// - 中断号 0x20 对应 irqTimer
 	// - 使用 setIntr 设置，DPL=0（仅内核可访问）
-
+	setIntr(idt + 0x20, SEG_KCODE, (uint32_t)irqTimer, DPL_KERN);
 	saveIdt(idt, sizeof(idt));
 }

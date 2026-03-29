@@ -38,7 +38,10 @@ void switch_to_user(uint32_t entry, uint32_t user_ds, uint32_t user_cs, uint32_t
 
 // TODO: 实现 enterUserSpace 函数
 void enterUserSpace(uint32_t entry) {
-	// TODO: 在此实现用户态切换代码
+	uint32_t user_ds = USEL(SEG_UDATA);
+	uint32_t user_cs = USEL(SEG_UCODE);
+	uint32_t user_esp = 0x20000;
+	switch_to_user(entry, user_ds, user_cs, user_esp);
 }
 
 void loadUMain(void) {

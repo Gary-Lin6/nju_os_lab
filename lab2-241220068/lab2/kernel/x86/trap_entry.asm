@@ -64,9 +64,41 @@ irqSecException:
 
 ; TODO 1: 实现 irqSyscall 系统调用入口
 irqSyscall:
-    ; TODO: 实现 irqSyscall 系统调用入口
+    push 0          ;errorcode
+    push 0x80       ;irq
+    jmp asmDoIrq
 
 ; TODO 2: 实现 asmDoIrq 公共中断处理入口
 asmDoIrq:
-    ; TODO: 在此实现公共中断处理代码
+;保存现场
+    ;保存段寄存器
+    push ds
+    push es
+    push fs
+    push gs
+    ;保存通用寄存器
+    pushad
+
+;切换到内核数据栈
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+;调用irqHandle
+    push esp
+    call irqHandle
+    add esp, 4
+
+;恢复现场
+    popad
+    pop gs
+    pop fs
+    pop es
+    pop ds
+
+;清理中断号与错误码并返回
+    add esp, 8
+    iret
     

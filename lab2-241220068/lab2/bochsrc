@@ -6,7 +6,8 @@ clock: sync=realtime, time0=local
 
 # BIOS images - these are standard paths for Homebrew on M-series Mac
 # If they differ, please update them to your local paths.
-romimage: file="/usr/share/bochs/BIOS-bochs-latest"
+#romimage: file="/usr/share/bochs/BIOS-bochs-latest"
+romimage: file="/usr/share/seabios/bios.bin"
 vgaromimage: file="/usr/share/bochs/VGABIOS-lgpl-latest"
 
 # Hard drive configuration - the code uses IDE ports 0x1F0-0x1F7
